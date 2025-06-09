@@ -9,8 +9,8 @@ class GameState():
         self.MONTHS = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"]
         self.YEARS = ["1939", "1940", "1941", "1942", "1943", "1944", "1945"]
         self.MAIN_CITY_NAME = ["Poznań", "Posen"]
-        self.COUNTRY_NAME = ["Polska", "Polen", "German Reich"]
-        self.CURRENCY = ["zł", "rm"]
+        self.COUNTRY_NAME = ["Polska", "German Reich"]
+        self.CURRENCY = ["złotych", "reichmarks"]
         #polish, german, jews
         self.EMPLOYED = [780, 20, 200]
         self.EMPLOYED_NAMES = ['Polish', 'German', 'Jews']
@@ -26,12 +26,14 @@ class GameState():
         self.country_name_flag = 0
         self.personal_cash = 10000
         self.currency_flag = 0
-        self.switched_currency = False
         self.max_employment = 1000
         self.employed = 0
         self.weapons_stockpiled = 5000
-        self.last_month_weapons_prod = 1000
-        self.polish_support = 80
+        self.personal_price_per_weapon = 0.24
+        self.last_month_weapons_prod = 0
+        self.polish_default_support = 50
+        self.polish_support = 50
+        self.german_default_support = -20
         self.german_support = -20
 
     def get_current_month_value(self):
@@ -52,16 +54,27 @@ class GameState():
     def get_personal_cash(self):
         return self.personal_cash
 
-    def convert_from_zl_to_rm(self):
-        self.personal_cash = self.personal_cash // 2
-        self.currency_flag = 1
+    def change_person_cash(self, value):
+        self.personal_cash += value
 
-    def get_switched_currency(self):
-        return self.switched_currency
+    def monthly_personal_profit(self):
+        self.change_person_cash(int(round(self.get_last_month_weapons_prod() * self.personal_price_per_weapon, 0)))
+
+    def convert_from_zl_to_rm(self):
+        if self.currency_flag == 0:
+            self.personal_cash = self.personal_cash // 2
+            self.change_personal_price_profit(self.personal_price_per_weapon / 2)
+        else:
+            self.personal_cash = self.personal_cash * 2
+            self.change_personal_price_profit(self.personal_price_per_weapon * 2)
+        self.currency_flag ^= 1
 
     def switch_currency(self):
-        self.switched_currency = not self.switched_currency
         self.convert_from_zl_to_rm()
+
+    def switch_countries(self):
+        self.city_name_flag ^= 1
+        self.country_name_flag ^= 1
 
     def get_max_employment(self):
         return self.max_employment
@@ -94,8 +107,17 @@ class GameState():
     def get_german_support(self):
         return self.german_support
 
+    def process_production(self):
+        self.last_month_weapons_prod = self.get_employed_group_number(0) * 0.9 + self.get_employed_group_number(1) * 1.1 + self.get_employed_group_number(2) * 1
+
     def increase_weapons_stockpiled(self):
         self.weapons_stockpiled += self.get_last_month_weapons_prod()
+
+    def change_employed_workers_number(self, index, number):
+        self.EMPLOYED[index] += number
+
+    def change_personal_price_profit(self, newValue):
+        self.personal_price_per_weapon = newValue
 
 gameState = GameState()
 def main():
@@ -103,6 +125,7 @@ def main():
         print_resources()
         print_ui_options()
         process_time()
+        increase_month()
         clear()
     return
 
@@ -123,7 +146,8 @@ def print_ui_options():
     print()
     print("--Press Space to go to the next month--")
     wait_key()
-    increase_month()
+    # wait_key2()
+
 
 
 
@@ -132,15 +156,29 @@ def print_ui_options():
 
 def process_time():
 
+    # 09/1939
     if gameState.current_month == 8 and gameState.current_year == 0:
         gameState.switch_currency()
+        gameState.change_employed_workers_number(2, - gameState.get_employed_group_number(2))
+    # 10/1939
+    if gameState.current_month == 9 and gameState.current_year == 0:
+        gameState.switch_countries()
 
+    # 03/1945
+    if gameState.current_month == 2 and gameState.current_year == 6:
+        gameState.switch_countries()
+        gameState.switch_currency()
+
+    gameState.process_production()
+    gameState.monthly_personal_profit()
     gameState.increase_weapons_stockpiled()
 
 def wait_key():
 
     keyboard.wait('space')
 
+def wait_key2():
+    keyboard.wait('enter')
 def increase_month():
 
     gameState.current_month += 1
