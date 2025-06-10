@@ -1,0 +1,30 @@
+[
+  {
+    "id": 0,
+    "title": "War has started",
+    "description": "The second world war has started",
+    "init_month": 8,
+    "init_year": 1939,
+    "init_flag": "",
+    "option_1": "Good",
+    "option_2": "Great",
+    "option_3": "Bad",
+    "effects_from_option_1": [],
+    "effects_from_option_2": [],
+    "effects_from_option_3": []
+  },
+  {
+    "id": 1,
+    "title": "War has ended",
+    "description": "The second world was has ended",
+    "init_month": 4,
+    "init_year": 1945,
+    "init_flag": "",
+    "option_1": "Meh",
+    "option_2": "Umm",
+    "option_3": "It was getting better and better",
+    "effects_from_option_1": [],
+    "effects_from_option_2": [],
+    "effects_from_option_3": []
+  }
+]

@@ -2,7 +2,7 @@ class GameState():
 
     def __init__(self):
 
-        self.MONTHS = ["JANUARY", "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"]
+        self.MONTHS = ["JANUARY",    "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"]
         self.YEARS = ["1939", "1940", "1941", "1942", "1943", "1944", "1945"]
         self.MAIN_CITY_NAME = ["Poznań", "Posen"]
         self.COUNTRY_NAME = ["Polska", "German Reich"]
@@ -10,6 +10,7 @@ class GameState():
         #polish, german, jews
         self.EMPLOYED = [780, 20, 200]
         self.EMPLOYED_NAMES = ['Polish', 'German', 'Jews']
+        self.EMPLOYED_PRODUCTIVITY = [1, 1.2, 1]
 
         self.month_staring_counter = 4
         self.year_starting_counter = 0
@@ -88,6 +89,9 @@ class GameState():
     def get_employed_group_number(self, index):
         return self.EMPLOYED[index]
 
+    def get_employed_productivity(self, index):
+        return self.EMPLOYED_PRODUCTIVITY[index]
+
     def get_perc_group_of_employed(self, index):
         return self.get_employed_group_number(index) / self.get_employed() * 100
 
@@ -104,7 +108,7 @@ class GameState():
         return self.german_support
 
     def process_production(self):
-        self.last_month_weapons_prod = self.get_employed_group_number(0) * 0.9 + self.get_employed_group_number(1) * 1.1 + self.get_employed_group_number(2) * 1
+        self.last_month_weapons_prod = self.get_employed_group_number(0) * self.get_employed_productivity(0) + self.get_employed_group_number(1) * self.get_employed_productivity(1) + self.get_employed_group_number(2) * self.get_employed_productivity(2)
 
     def increase_weapons_stockpiled(self):
         self.weapons_stockpiled += self.get_last_month_weapons_prod()
