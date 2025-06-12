@@ -11,7 +11,8 @@
     "option_3": "Bad",
     "effects_from_option_1": [],
     "effects_from_option_2": [],
-    "effects_from_option_3": []
+    "effects_from_option_3": [],
+    "create_flag": ""
   },
   {
     "id": 1,
@@ -25,6 +26,23 @@
     "option_3": "It was getting better and better",
     "effects_from_option_1": [],
     "effects_from_option_2": [],
-    "effects_from_option_3": []
+    "effects_from_option_3": [],
+    "create_flag": ""
+  }
+  ,
+  {
+    "id": 2,
+    "title": "Mobilization",
+    "description": "By the order of Edward Rydz-Śmigły every able man is being ordered to get ready for upcoming war. Luckily since your factory produces war material your tithes are reduced. You can however encourage workers to give all they have or in opposite make them stay.",
+    "init_month": 6,
+    "init_year": 1939,
+    "init_flag": "",
+    "option_1": "Allow normal mobilization",
+    "option_2": "Encourage people to fight for independent Poland",
+    "option_3": "Why even fight? It's better to protect lives.",
+    "effects_from_option_1": [["workers", 0.2], ["polish_standing", 10]],
+    "effects_from_option_2": [["workers", 0.4], ["polish_standing", 25]],
+    "effects_from_option_3": [["workers", 0.1], ["polish_standing", -20]],
+    "create_flag": ""
   }
 ]

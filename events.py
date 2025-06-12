@@ -1,4 +1,4 @@
-class Events:
+class Events():
 
     def __init__(self):
         self.id = 0
@@ -14,4 +14,8 @@ class Events:
         self.effects_from_option_2 = []
         self.effects_from_option_3 = []
 
+    def get_init_month(self):
+        return self.init_month
 
+    def get_init_year(self):
+        return self.init_year

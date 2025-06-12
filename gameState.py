@@ -3,7 +3,7 @@ class GameState():
     def __init__(self):
 
         self.MONTHS = ["JANUARY",    "FEBRUARY", "MARCH", "APRIL", "MAY", "JUNE", "JULY", "AUGUST", "SEPTEMBER", "OCTOBER", "NOVEMBER", "DECEMBER"]
-        self.YEARS = ["1939", "1940", "1941", "1942", "1943", "1944", "1945"]
+        self.YEARS = [1939, 1940, 1941, 1942, 1943, 1944, 1945]
         self.MAIN_CITY_NAME = ["Poznań", "Posen"]
         self.COUNTRY_NAME = ["Polska", "German Reich"]
         self.CURRENCY = ["złotych", "reichmarks"]
@@ -33,9 +33,17 @@ class GameState():
         self.german_default_support = -20
         self.german_support = -20
 
+        self.EVENT_LIST = []
+        self.last_event_index = 0
+        self.EVENT_TO_RUN_LIST = []
+
+    def get_current_month_index(self):
+        return self.current_month
     def get_current_month_value(self):
         return self.MONTHS[self.current_month]
 
+    def get_current_year_index(self):
+        return self.current_year
     def get_current_year_value(self):
         return self.YEARS[self.current_year]
 
@@ -118,3 +126,21 @@ class GameState():
 
     def change_personal_price_profit(self, newValue):
         self.personal_price_per_weapon = newValue
+
+    def get_last_events_index(self):
+        return self.last_event_index
+
+    def set_last_events_index(self, newIndex):
+        self.last_event_index = newIndex
+
+    def append_events_to_run(self, newEvent):
+        self.EVENT_TO_RUN_LIST.append(newEvent)
+
+    def get_events_to_run(self):
+        return self.EVENT_TO_RUN_LIST
+
+    def clear_events_to_run(self):
+        self.EVENT_TO_RUN_LIST = []
+
+    def get_events(self):
+        return self.EVENT_LIST
